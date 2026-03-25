@@ -10,7 +10,7 @@ This lab contains a SQL injection vulnerability in the product category filter. 
 *Navigate to*
 * /filter?category=Lifestyle
 
-* Test input* 
+*Test input*
 * category=Lifestyle'
     → Internal server error → confirm injection point
 
