@@ -41,10 +41,10 @@ This lab contains a SQL injection vulnerability in the product category filter. 
 An attacker can perform database fingerprinting and extract sensitive information, enabling targeted attacks based on the database version.
 
 # Tools Used
-Browser
-Burp Suite (Proxy, Repeater)
+* Browser
+* Burp Suite (Proxy, Repeater)
 
 # Mitigation
-Use parameterized queries
-Implement input validation
-Restrict database error messages
+* Use parameterized queries
+* Implement input validation
+* Restrict database error messages
