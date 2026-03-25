@@ -1,7 +1,7 @@
 # SQL Injection - UNION-based Version Disclosure
 
 # Vulnerability overview
-This lab contains a SQL injection vulnerability in the product category filter. Allowing attacker to use UNION attack to retrieve the results from an injected query.
+This lab contains a SQL injection vulnerability in the product category filter. Allowing attacker to use UNION attack to retrieve the results from an injected query. Database is MYSQL or Microsoft(Given).
 
 # Steps to Reproduce
 
