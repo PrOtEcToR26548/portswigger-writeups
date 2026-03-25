@@ -21,7 +21,7 @@ The application is vulnerable to SQL Injection in the category parameter, allowi
 * category=Gifts' OR 1=1--
 
 # Payload Used
-* '+or+1=1--
+'+or+1=1--
 
 # Impact
 Attacker can bypass filtering conditions and retrieve all products, potentially exposing sensitive data.
