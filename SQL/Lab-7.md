@@ -1,7 +1,7 @@
 # SQL Injection – Blind SQLi (Conditional Response)
 
 # Vulnerability Overview
-The application is vulnerable to blind SQL Injection via the TrackingId cookie. The response includes a “Welcome back” message when a query condition evaluates to true, enabling data extraction through conditional responses.
+The application is vulnerable to blind SQL Injection via the TrackingId cookie. The response includes a “Welcome back” message when a query condition evaluates to true, allowing data extraction through conditional responses.
 
 # Steps to Reproduce
 *Navigate to*
