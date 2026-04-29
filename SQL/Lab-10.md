@@ -1,4 +1,9 @@
 # SQL Injection – Time-based information retrival
+# Vulnerability Details
+Type: Time-Based Blind SQL Injection
+Severity: High
+CWE: CWE-89 (SQL Injection)
+OWASP Category: A03: Injection
 
 # Vulnerability Overview
 The application is vulnerable to SQL Injection via the TrackingId cookie. The database does not return query results or errors directly, but delays in response time can be used to infer data.
